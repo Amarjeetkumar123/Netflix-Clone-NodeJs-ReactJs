@@ -76,7 +76,7 @@
 │     ├───models
 │     ├───routes
 │     ├───services
-│     │    ├───mailtrap-service.js
+│     │    ├───send-email-service.js
 │     │    │   └───[[...emails]]
 │     │    └───tmdb-service.js
 │     │       └───[[...data]]
