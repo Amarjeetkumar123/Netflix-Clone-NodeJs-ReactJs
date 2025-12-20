@@ -7,7 +7,7 @@ import {
   sendWelcomeEmail,
   sendPasswordResetEmail,
   sendPasswordResetSuccessEmail,
-} from '../services/mailtrap.service.js';
+} from '../services/send_email.service.js';
 
 /**
  * Handles the signup request by validating user input, checking for existing users,
@@ -48,14 +48,13 @@ export const signup = async (req, res) => {
 
     // generate the token for email verification
     const verificationToken = generateVerificationToken();
-    // await sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email, verificationToken);
 
     // create new user and save to database
     const newUser = new User({
       username,
       email,
       password,
-      isVerified:true,
       verificationToken,
       verificationExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });

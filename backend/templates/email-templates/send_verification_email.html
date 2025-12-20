@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Email Verification</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border: 1px solid #e50914;
+            border-radius: 8px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .code {
+            margin: 25px 0;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            color: #e50914;
+            border: 2px dashed #e50914;
+            padding: 12px 20px;
+            display: inline-block;
+            border-radius: 6px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #555555;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">NETFLIX CLONE</div>
+
+        <div class="content">
+            <p>Hi,</p>
+            <p>
+                Use the verification code below to verify your email
+                for <strong>netflix-clone</strong>.
+            </p>
+
+            <div class="code">{{VERIFICATION_CODE}}</div>
+
+            <p>
+                This code is valid for a limited time.
+                Please do not share it with anyone.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>If you didn’t request this email, you can ignore it.</p>
+            <p>© netflix-clone</p>
+        </div>
+    </div>
+</body>
+
+</html>

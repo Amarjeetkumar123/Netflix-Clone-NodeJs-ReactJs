@@ -193,9 +193,9 @@ MONGO_URI=your_mongodb_uri
 # TMDB API integration
 TMDB_API_KEY=your_tmdb_api_key
 
-# Mailtrap integration
-MAILTRAP_TOKEN=your_mailtrap_token
-MAILTRAP_ENDPOINT=https://sandbox.api.mailtrap.io/api/send/{your_mailbox_id}
+# Nodemailer integration
+GOOGLE_APP_EMAIL=your_gmail
+GOOGLE_APP_PASSWORD=your_gmail_app_password_inside_your_two_step_verification_setup
     
 ```
 

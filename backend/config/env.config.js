@@ -21,8 +21,8 @@ dotenv.config({ path: filePath });
  * @property {string} CLIENT_URL - The server connection URL.
  * @property {string} JWT_SECRET - The secret key for JSON Web Tokens.
  * @property {string} TMDB_API_KEY - The API key for The Movie Database (TMDB).
- * @property {string} MAILTRAP_TOKEN - The token for Mailtrap SMTP service.
- * @property {string} MAILTRAP_ENDPOINT - The endpoint for Mailtrap SMTP service.
+ * @property {string} GOOGLE_APP_EMAIL - Your Gmail Id.
+ * @property {string} GOOGLE_APP_PASSWORD - Your Gmail App Password which is in your 2fa setup.
  */
 
 export const ENV_VARS = {
@@ -40,7 +40,7 @@ export const ENV_VARS = {
   // TMDB API configuration
   TMDB_API_KEY: process.env.TMDB_API_KEY,
 
-  // Mailtrap SMTP configuration
-  MAILTRAP_TOKEN: process.env.MAILTRAP_TOKEN,
-  MAILTRAP_ENDPOINT: process.env.MAILTRAP_ENDPOINT,
+  // Nodemailer configuration
+  GOOGLE_APP_EMAIL: process.env.GOOGLE_APP_EMAIL,
+  GOOGLE_APP_PASSWORD: process.env.GOOGLE_APP_PASSWORD,
 };
