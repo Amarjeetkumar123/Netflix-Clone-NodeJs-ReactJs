@@ -5,8 +5,10 @@ import toast from 'react-hot-toast';
 // Set axios to send cookies with requests.
 axios.defaults.withCredentials = true;
 
-// Base URL for API requests.
-// const BASE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:8000/api/v1/account' : '/api/v1/account';
+// Configure base URL for production
+if (import.meta.env.VITE_API_URL) {
+  axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+}
 
 export const useAuthStore = create((set) => ({
   user: null,
