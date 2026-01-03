@@ -2,7 +2,8 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 
 /**
- * Sends an email using Nodemailer with Gmail SMTP.
+ * Sends an email using Postmark (production) or Gmail (local development).
+ * Auto-detects which service to use based on environment variables.
  *
  * @param {string|string[]} toEmails - The recipient email address(es).
  * @param {string} subject - The subject of the email.
@@ -15,25 +16,57 @@ export const sendEmail = async function (toEmails, subject, htmlText) {
   if (!Array.isArray(toEmails)) {
     toEmails = [toEmails];
   }
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GOOGLE_APP_EMAIL,
-      pass: process.env.GOOGLE_APP_PASSWORD, // The 16-character App Password
-    },
-  });
-  const mailOptions = {
-    from: process.env.GOOGLE_APP_EMAIL,
-    to: toEmails,
-    subject: subject,
-    html: htmlText,
-  };
+
+  // Use Postmark if API token is available (production), otherwise use Gmail (local)
+  const usePostmark = process.env.POSTMARK_API_TOKEN;
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info.response);
+    if (usePostmark) {
+      // Use Postmark API for production (works on Render)
+      const response = await fetch('https://api.postmarkapp.com/email', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Postmark-Server-Token': process.env.POSTMARK_API_TOKEN,
+        },
+        body: JSON.stringify({
+          From: process.env.POSTMARK_FROM_EMAIL || 'noreply@yourdomain.com',
+          To: Array.isArray(toEmails) ? toEmails.join(',') : toEmails,
+          Subject: subject,
+          HtmlBody: htmlText,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(`Postmark error: ${data.Message || 'Unknown error'}`);
+      }
+      
+      console.log('✅ Email sent via Postmark:', data.MessageID);
+    } else {
+      // Use Gmail SMTP for local development
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GOOGLE_APP_EMAIL,
+          pass: process.env.GOOGLE_APP_PASSWORD,
+        },
+      });
+      
+      const mailOptions = {
+        from: process.env.GOOGLE_APP_EMAIL,
+        to: toEmails,
+        subject: subject,
+        html: htmlText,
+      };
+
+      const info = await transporter.sendMail(mailOptions);
+      console.log("✅ Email sent via Gmail:", info.response);
+    }
   } catch (error) {
-    console.error("Error sending email: " + error);
+    console.error("❌ Error sending email:", error.message);
     throw error;
   } 
 }
