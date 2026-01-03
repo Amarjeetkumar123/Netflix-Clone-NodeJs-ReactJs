@@ -28,6 +28,21 @@ export const expressServer = () => {
   const app = express();
 
   /**
+   * Request logging middleware - logs all incoming requests
+   */
+  app.use((req, res, next) => {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] ${req.method} ${req.url} - Origin: ${req.get('origin') || 'No origin'}`);
+    
+    // Log when response is finished
+    res.on('finish', () => {
+      console.log(`[${timestamp}] ${req.method} ${req.url} - Status: ${res.statusCode}`);
+    });
+    
+    next();
+  });
+
+  /**
    * Configures and applies the CORS middleware to the Express application instance.
    * getClientUrl is a function that retrieves the client's base URL. (e.g. http://localhost:5173)
    */
