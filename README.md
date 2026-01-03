@@ -152,94 +152,102 @@ This is the main css file of the application. You can use this file to add CSS r
 
 ## 🚀 Quick Start Guide
 
-To spin up this project locally, follow these steps
+### For Local Development
 
-### Clone
+**Step 1: Clone the Repository**
+```bash
+git clone https://github.com/YOUR_USERNAME/netflix-clone.git
+cd netflix-clone
+```
 
-Use the ` git clone ` CLI to clone template directly  to your machine
-
-
-### Run project on local
-
+**Step 2: Install Dependencies**
 ```bash
 npm run build
-npm start
 ```
 
-## Project Dev Steps
+**Step 3: Set Up Environment Variables**
 
-1. Environment Setup
-   
-   Create a `.env` file on the root of project
-   PUT THIS INSIDE
-
+Create a `.env` file in the **root directory**:
 ```bash
-
-# Node server
+# Server Configuration
 SERVER_PORT=8000
 NODE_ENV=development
-
-# CLient config
-CLIENT_HOST=localhost
-CLIENT_PORT=5173
 CLIENT_URL=http://localhost:5173
 
-# JWT secret
-JWT_SECRET=your_jwt_secret
+# JWT Secret (min 32 characters)
+JWT_SECRET=your_jwt_secret_key_here
 
-# Database integration
-MONGO_URI=your_mongodb_uri
+# MongoDB
+MONGO_URI=your_mongodb_connection_string
 
-# TMDB API integration
+# TMDB API
 TMDB_API_KEY=your_tmdb_api_key
 
-# Nodemailer integration
-GOOGLE_APP_EMAIL=your_gmail
-GOOGLE_APP_PASSWORD=your_gmail_app_password_inside_your_two_step_verification_setup
-    
+# Gmail (for emails)
+GOOGLE_APP_EMAIL=your_email@gmail.com
+GOOGLE_APP_PASSWORD=your_16_char_app_password
 ```
 
-2.  Project Folders & Files Structure
-
-3.  Update `package.json` file from root directory
-
-```json
-
-// For mac and linux users
- "scripts": {
-    "dev": "NODE_ENV=development&& concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\" ",
-    "start": "NODE_ENV=production&& node backend/app.js",
-    "build": "npm install && npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-    "format": "prettier --print-width=120 --write ."
-  }
-
-// For windows users
- "scripts": {
-    "dev": "SET NODE_ENV=development&& concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\" ",
-    "start": "SET NODE_ENV=production&& node backend/app.js",
-    "build": "npm install && npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-    "format": "prettier --print-width=120 --write ."
-  }
-
-
+**Step 4: Start Development Servers**
+```bash
+npm run dev
 ```
-4.  Setup Eslint & Prettier
-   
-5.  Run project in development
+
+**Step 5: Open Application**
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000
+
+> [!NOTE]
+> 📖 **Need detailed setup instructions?** See [LOCAL-SETUP.md](LOCAL-SETUP.md) for complete step-by-step guide including:
+> - How to get MongoDB, TMDB API key, and Gmail app password
+> - Troubleshooting common issues
+> - API endpoints reference
+> - Development workflow tips
+
+---
+
+### For Production Deployment
+
+Deploy to Vercel (Frontend) + Render (Backend):
+
+> [!TIP]
+> 🚀 **Ready to deploy?** See [QUICK-DEPLOY.md](QUICK-DEPLOY.md) for a 10-minute deployment guide, or [DEPLOYMENT.md](DEPLOYMENT.md) for comprehensive deployment documentation.
+
+---
+
+## 📚 Documentation
+
+- **[LOCAL-SETUP.md](LOCAL-SETUP.md)** - Complete local development setup guide
+- **[QUICK-DEPLOY.md](QUICK-DEPLOY.md)** - Quick deployment guide (10 minutes)
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Comprehensive deployment documentation
+- **[DEPLOYMENT-SUMMARY.md](DEPLOYMENT-SUMMARY.md)** - Overview of deployment files
+
+---
+
+## 🛠️ Useful Commands
 
 ```bash
-
-npm install
+# Start development (both frontend & backend)
 npm run dev
 
+# Install all dependencies
+npm run build
+
+# Format code with Prettier
+npm run format
+
+# Start backend only
+cd backend && npm run dev
+
+# Start frontend only
+cd frontend && npm run dev
+
+# Build for production
+npm run build --prefix frontend
 ```
 
 > [!TIP]
-> Run this command to format code before running `git commit` command.
-
-```bash
-npm run format
-```
+> Run `npm run format` before committing to ensure consistent code formatting.
 
 ### I'll see you in the next one!
 
