@@ -37,6 +37,12 @@ export const expressServer = () => {
   // Add production frontend URL if in production
   if (ENV_VARS.NODE_ENV === 'production' && ENV_VARS.CLIENT_URL) {
     allowedOrigins.push(ENV_VARS.CLIENT_URL);
+    // Also allow without trailing slash
+    if (ENV_VARS.CLIENT_URL.endsWith('/')) {
+      allowedOrigins.push(ENV_VARS.CLIENT_URL.slice(0, -1));
+    } else {
+      allowedOrigins.push(ENV_VARS.CLIENT_URL + '/');
+    }
   }
   
   app.use(
@@ -45,9 +51,19 @@ export const expressServer = () => {
         // Allow requests with no origin (mobile apps, Postman, etc.)
         if (!origin) return callback(null, true);
         
-        if (allowedOrigins.indexOf(origin) !== -1) {
+        // Check if origin is in allowed list
+        const isAllowed = allowedOrigins.some(allowedOrigin => {
+          // Remove trailing slash for comparison
+          const normalizedOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
+          const normalizedAllowed = allowedOrigin.endsWith('/') ? allowedOrigin.slice(0, -1) : allowedOrigin;
+          return normalizedOrigin === normalizedAllowed;
+        });
+        
+        if (isAllowed) {
           callback(null, true);
         } else {
+          console.error('CORS Error - Origin not allowed:', origin);
+          console.error('Allowed origins:', allowedOrigins);
           callback(new Error('Not allowed by CORS'));
         }
       },
@@ -76,7 +92,9 @@ export const expressServer = () => {
   app.use('/api/v1/search', protectedRoute, searchRoutes);
 
   // Serves the production build of the frontend if the NODE_ENV environment variable is set to "production".
-  if (ENV_VARS.NODE_ENV === 'production') {
+  // Only serve static files if frontend is bundled with backend (monorepo deployment)
+  // For separate deployments (Vercel + Render), this should be disabled
+  if (ENV_VARS.NODE_ENV === 'production' && process.env.SERVE_FRONTEND === 'true') {
     app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
     app.get('*', (req, res) => {

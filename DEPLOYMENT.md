@@ -60,10 +60,12 @@ git push -u origin main
    - `MONGO_URI` = `your_mongodb_connection_string`
    - `JWT_SECRET` = `your_secure_random_string`
    - `TMDB_API_KEY` = `your_tmdb_api_key`
-   - `CLIENT_URL` = `https://your-frontend-url.vercel.app` (add this after frontend deployment)
+   - `CLIENT_URL` = `https://netflix-clone-frontend-woad.vercel.app` (use your exact Vercel URL, NO trailing slash)
    - `GOOGLE_APP_EMAIL` = `your_gmail@gmail.com`
    - `GOOGLE_APP_PASSWORD` = `your_gmail_app_password`
    - `SERVER_PORT` = `8000`
+
+   > ⚠️ **Important**: Copy the `CLIENT_URL` exactly from Vercel. Make sure there's NO trailing slash!
 
 6. Click **"Create Web Service"**
 
@@ -160,6 +162,8 @@ vercel --prod
 - Check `VITE_API_URL` in Vercel environment variables
 - Verify backend is running on Render
 - Check CORS settings in backend
+- **Make sure `CLIENT_URL` in Render has NO trailing slash**
+- Check Render logs for "CORS Error" messages showing which origin was rejected
 
 ### Email not sending
 - Verify Gmail app password is correct
