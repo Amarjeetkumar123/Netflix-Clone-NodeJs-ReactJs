@@ -170,8 +170,8 @@ export const verifyEmail = async (req, res) => {
     user.verificationExpiresAt = undefined;
     await user.save();
 
-    // send welcome email to the user, and send success message
-    await sendWelcomeEmail(user.email, user.username);
+    // Temporarily disabled: do not send welcome email during verification.
+    // await sendWelcomeEmail(user.email, user.username);
     res.status(200).json({
       status: 'success',
       message: 'Account verified successfully',
