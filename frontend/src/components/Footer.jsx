@@ -7,7 +7,7 @@ const Footer = () => {
         <p className="text-center text-xs leading-loose text-muted-foreground flex items-center justify-center gap-2">
           Made by <Heart className="size-4 text-red-500 fill-red-500" /> The source code is available on{' '}
           <a
-            href="https://github.com/kundanhere/netflix-clone"
+            href="https://github.com/Amarjeetkumar123/Netflix-Clone-NodeJs-ReactJs"
             target="_blank"
             rel="noreferrer"
             className="font-medium hover:underline underline-offset-4 text-red-500"
