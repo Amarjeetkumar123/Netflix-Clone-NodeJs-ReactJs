@@ -48,7 +48,8 @@ export const signup = async (req, res) => {
 
     // generate the token for email verification
     const verificationToken = generateVerificationToken();
-    await sendVerificationEmail(email, verificationToken);
+    // Temporarily disabled because email service is not working.
+    // await sendVerificationEmail(email, verificationToken);
 
     // create new user and save to database
     const newUser = new User({

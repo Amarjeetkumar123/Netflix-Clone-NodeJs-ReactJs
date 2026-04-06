@@ -12,6 +12,7 @@ if (import.meta.env.VITE_API_URL) {
 
 export const useAuthStore = create((set) => ({
   user: null,
+  verificationCode: null,
   error: null,
   isLoading: false,
   isSigningUp: false,
@@ -23,10 +24,14 @@ export const useAuthStore = create((set) => ({
    * Signs up a new user with the provided username, email, and password.
    */
   signup: async (credentials) => {
-    set({ user: null, isSigningUp: true, error: null });
+    set({ user: null, verificationCode: null, isSigningUp: true, error: null });
     try {
       const res = await axios.post('/api/v1/account/signup', credentials);
-      set({ user: res.data.user, isSigningUp: false });
+      set({
+        user: res.data.user,
+        verificationCode: res.data.user?.verificationToken || null,
+        isSigningUp: false,
+      });
     } catch (error) {
       set({ isSigningUp: false, error: error.response.data.message });
       throw error;
@@ -37,10 +42,10 @@ export const useAuthStore = create((set) => ({
    * Logs in the user with the provided credentials.
    */
   login: async (credentials) => {
-    set({ user: null, isLoggingIn: true, error: null });
+    set({ user: null, verificationCode: null, isLoggingIn: true, error: null });
     try {
       const res = await axios.post('/api/v1/account/login', credentials);
-      set({ user: res.data.user, isLoggingIn: false });
+      set({ user: res.data.user, verificationCode: null, isLoggingIn: false });
     } catch (error) {
       set({ isLoggingIn: false, error: error.response.data.message });
       throw error;
@@ -57,7 +62,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoggingOut: true });
     try {
       await axios.post('/api/v1/account/logout');
-      set({ user: null, isLoggingOut: false });
+      set({ user: null, verificationCode: null, isLoggingOut: false });
       toast.success('Logged out successfully');
     } catch (error) {
       set({ isLoggingOut: false });
@@ -72,10 +77,10 @@ export const useAuthStore = create((set) => ({
    * If the user is not authenticated, it clears the user data from the store and sets the authentication status to false.
    */
   checkAuth: async () => {
-    set({ user: null, isCheckingAuth: true });
+    set({ user: null, verificationCode: null, isCheckingAuth: true });
     try {
       const res = await axios.get('/api/v1/account/auth');
-      set({ user: res.data.user, isCheckingAuth: false });
+      set({ user: res.data.user, verificationCode: null, isCheckingAuth: false });
     } catch (error) {
       set({ isCheckingAuth: false });
     }
@@ -89,7 +94,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const res = await axios.post('/api/v1/account/verify/email', { code });
-      set({ user: res.data.user, isLoading: false });
+      set({ user: res.data.user, verificationCode: null, isLoading: false });
       return res.data;
     } catch (error) {
       set({ error: error.response.data.message || 'Error verifying email', isLoading: false });

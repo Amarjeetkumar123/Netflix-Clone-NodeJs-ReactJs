@@ -13,7 +13,8 @@ const EmailVerificationPage = () => {
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
-  const { verifyEmail, error, setError, isLoading } = useAuthStore();
+  const { verifyEmail, error, setError, isLoading, verificationCode, user } = useAuthStore();
+  const displayCode = verificationCode || user?.verificationToken;
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -96,6 +97,11 @@ const EmailVerificationPage = () => {
                 />
               ))}
             </div>
+            {displayCode && (
+              <p className="text-yellow-300 text-xs font-semibold">
+                Verification code: <span className="tracking-[0.35em]">{displayCode}</span>
+              </p>
+            )}
             {/* if have any error message display it */}
             {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
             {/* submit button */}
